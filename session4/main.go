@@ -29,8 +29,33 @@ func calculateStandardDeviation(numbers []float64) float64 {
 	return math.Sqrt(variance)
 }
 
+func calculateCorrelation(data1, data2 []float64) float64 {
+	if len(data1) != len(data2) {
+		fmt.Println("Error: Input data sets must have the same length")
+		os.Exit(1)
+	}
+
+	mean1 := calculateMean(data1)
+	mean2 := calculateMean(data2)
+
+	var covariance, stdDev1, stdDev2 float64
+
+	for i := 0; i < len(data1); i++ {
+		covariance += (data1[i] - mean1) * (data2[i] - mean2)
+	}
+
+	stdDev1 = calculateStandardDeviation(data1)
+	stdDev2 = calculateStandardDeviation(data2)
+
+	correlation := covariance / (stdDev1 * stdDev2)
+	return correlation
+}
+
 func main() {
 	var numbers []float64
+	// Example data sets
+	data1 := []float64{1, 2, 3, 4, 5}
+	data2 := []float64{2, 3, 4, 5, 6}
 
 	// Create a buffered reader for user input
 	reader := bufio.NewReader(os.Stdin)
@@ -67,4 +92,9 @@ func main() {
 	// Calculate standard deviation
 	standardDeviation := calculateStandardDeviation(numbers)
 	fmt.Printf("The standard deviation of the numbers is: %.2f\n", standardDeviation)
+
+	// Calculate correlation coefficient
+	correlation := calculateCorrelation(data1, data2)
+	fmt.Printf("The correlation coefficient between the two data sets is: %.2f\n", correlation)
+
 }
