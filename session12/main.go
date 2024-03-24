@@ -1,44 +1,40 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
-func mergeSort(arr []int) []int {
-	length := len(arr)
+// binarySearch searches for target in the sorted array arr
+func binarySearch(arr []int, target int) int {
+	left, right := 0, len(arr)-1
 
-	if length <= 1 {
-		return arr
-	}
+	for left <= right {
+		mid := left + (right-left)/2
 
-	middle := length / 2
-	left := mergeSort(arr[:middle])
-	right := mergeSort(arr[middle:])
+		// Check if target is present at mid
+		if arr[mid] == target {
+			return mid
+		}
 
-	return merge(left, right)
-}
-
-func merge(left, right []int) []int {
-	result := make([]int, 0, len(left)+len(right))
-	leftIndex, rightIndex := 0, 0
-
-	for leftIndex < len(left) && rightIndex < len(right) {
-		if left[leftIndex] < right[rightIndex] {
-			result = append(result, left[leftIndex])
-			leftIndex++
-		} else {
-			result = append(result, right[rightIndex])
-			rightIndex++
+		// If target is greater, ignore left half
+		if arr[mid] < target {
+			left = mid + 1
+		} else { // If target is smaller, ignore right half
+			right = mid - 1
 		}
 	}
 
-	result = append(result, left[leftIndex:]...)
-	result = append(result, right[rightIndex:]...)
-
-	return result
+	// If we reach here, then the element was not present
+	return -1
 }
 
 func main() {
-	arr := []int{6, 16, 13, 5, 1, 7, 20, 3, 11}
-	fmt.Println("Unsorted array:", arr)
-	sorted := mergeSort(arr)
-	fmt.Println("Sorted array:", sorted)
+	arr := []int{2, 3, 4, 10, 40}
+	target := 10
+	result := binarySearch(arr, target)
+	if result != -1 {
+		fmt.Printf("Element %d found at index %d\n", target, result)
+	} else {
+		fmt.Printf("Element %d not found in the array\n", target)
+	}
 }
