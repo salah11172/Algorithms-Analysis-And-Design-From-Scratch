@@ -48,12 +48,6 @@ func (k *Knapsack) addItem(newItem *Item) {
 	k.totalValue += newItem.value
 }
 
-type ByRatio []*Item
-
-func (a ByRatio) Len() int           { return len(a) }
-func (a ByRatio) Less(i, j int) bool { return a[i].ratio > a[j].ratio }
-func (a ByRatio) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
-
 func mergeSort(myArray []*Item) []*Item {
 	if len(myArray) == 1 {
 		return myArray
