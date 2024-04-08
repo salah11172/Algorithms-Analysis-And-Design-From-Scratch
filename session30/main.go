@@ -7,7 +7,6 @@ import (
 
 type Vertex struct {
 	Name                string
-	Visited             bool
 	TotalLength         float64
 	SourceOfTotalLength *Vertex
 	VertexLinks         []*Edge
@@ -78,7 +77,6 @@ func (g *Graph) Dijkstra() {
 
 func (g *Graph) RestoreVertices() {
 	for _, v := range g.Vertices {
-		v.Visited = false
 		v.TotalLength = 0
 		v.SourceOfTotalLength = nil
 	}
